@@ -1,0 +1,30 @@
+; A Turing machine that decides the language L over the alphabet {0, 1} consisting
+; of all strings with the same number of 0’s as 1’s.
+
+; first occurrence of 0 or 1
+0 0 x r a
+0 1 x r b
+
+; keep going if we don't find the other character
+a 0 0 R a
+a x x R a
+b 1 1 R b
+b x x R b
+
+; if we make it to the end we reject
+a _ _ r halt-reject
+b _ _ r halt-reject
+
+; go back
+a 1 x l L
+b 0 x l L
+
+; accept if we blank out everything
+0 _ _ l halt-accept
+0 x x r 0
+
+; go back
+L x x l L
+L 0 0 l L
+L 1 1 l L
+L _ _ r 0
